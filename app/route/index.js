@@ -41,7 +41,7 @@ router
   .get((req, res) => {
     res.send("findOne products");
   })
-  .put(ProductControllers.update)
+  .patch(ProductControllers.update)
   .delete(ProductControllers.delete);
 
 module.exports = router;

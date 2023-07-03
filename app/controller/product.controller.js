@@ -30,7 +30,11 @@ exports.create = async (req, res, next) => {
     );
   }
   try {
-    const response = await Product.create({ title: title, ...req.body });
+    const response = await Product.create({
+      title: title,
+      stock: 0,
+      ...req.body,
+    });
     return res.status(200).json({ success: response ? true : false, response });
   } catch (error) {
     return next(res.send("Trung ten san pham"));
@@ -39,10 +43,9 @@ exports.create = async (req, res, next) => {
 exports.update = async (req, res, next) => {
   const id = req.params.id;
   try {
-    const response = await Product.findByIdAndUpdate(
-      new ObjectId(id) ,
-      {...req.body }
-    );
+    const response = await Product.findByIdAndUpdate(new ObjectId(id), {
+      ...req.body,
+    });
     return res.status(200).json({ success: response ? true : false, response });
   } catch (error) {
     return next(res.send("San pham khong ton tai"));
