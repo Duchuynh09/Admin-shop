@@ -2,6 +2,7 @@ const { ObjectId } = require("mongodb");
 const Cart = require("../models/cart.model");
 const ApiError = require("../api.error");
 const CartService = require("../service/cart.service");
+const { minusStock } = require("../service/product.service");
 exports.exist = async (req, res, next) => {
   const { userId, product } = req.body;
   try {
@@ -81,6 +82,14 @@ exports.findOne = async (req, res) => {
       ? res.status(202).json({ cart })
       : res.send(new ApiError(404, "Khong tim thay cart"));
   } catch (error) {}
+};
+exports.delivered = async (req, res) => {
+  const { userId } = req.body;
+  const cart = await Cart.findOne({ userId: userId });
+  minusStock(cart);
+  return cart
+    ? res.status(202).json({ cart })
+    : res.send(new ApiError(404, "Khong tim thay cart"));
 };
 exports.order = async (req, res) => {
   const cartId = req.params.id;

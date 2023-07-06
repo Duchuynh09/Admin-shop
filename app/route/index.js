@@ -18,7 +18,8 @@ router
     CartControllers.exist,
     CartControllers.add
   )
-  .delete(CartControllers.delete)
+  .patch(CartControllers.delivered)
+  .delete(CartControllers.delete);
 router
   .route("/cart/:id")
   .get(CartControllers.findOne)
@@ -36,6 +37,7 @@ router
   .get(UserControllers.findOne)
   .post(UserControllers.create)
   .put(UserControllers.update);
+
 router
   .route("/:id")
   .get((req, res) => {
